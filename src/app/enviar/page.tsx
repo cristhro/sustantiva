@@ -4,15 +4,8 @@ import Link from 'next/link'
 
 import PageWithAppbar from '@/components/layout/pageWithAppbar'
 import { Button } from '@/components/ui/button'
-import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { User } from 'lucide-react'
 
 export default function Enviar() {
-  const { user: walletProviderUser } = useDynamicContext()
-  const router = useRouter()
-
   return (
     <PageWithAppbar>
       <div className="page gap-y-8 text-center">
