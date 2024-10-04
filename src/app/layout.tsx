@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { cn } from '@/lib/utils'
+import { cn } from '@/services/utils'
 
 import OnchainProvider from '@/providers/onchainProvider'
 import { Toaster } from '@/components/ui/sonner'
