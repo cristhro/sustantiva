@@ -4,21 +4,36 @@ import { type ReactNode } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import {
   DynamicContextProvider,
-  type UserProfile,
+  DynamicEventsCallbacks,
 } from '@dynamic-labs/sdk-react-core'
 import { EthereumWalletConnectors } from '@dynamic-labs/ethereum'
 import { DynamicWagmiConnector } from '@dynamic-labs/wagmi-connector'
 import { createConfig, WagmiProvider } from 'wagmi'
 import { http } from 'viem'
-import { mainnet, sepolia } from 'viem/chains'
+import { base, mainnet, sepolia } from 'viem/chains'
 import { useRouter } from 'next/navigation'
 
+const alchemyApiKey = process.env.NEXT_PUBLIC_ALCHEMY_API_ID ?? undefined
+
 const config = createConfig({
-  chains: [sepolia],
+  chains: [base, mainnet, sepolia],
   multiInjectedProviderDiscovery: false,
   transports: {
-    [mainnet.id]: http(),
-    [sepolia.id]: http(),
+    [base.id]: http(
+      alchemyApiKey
+        ? `https://base-mainnet.g.alchemy.com/v2/${alchemyApiKey}`
+        : '',
+    ),
+    [mainnet.id]: http(
+      alchemyApiKey
+        ? `https://eth-mainnet.g.alchemy.com/v2/${alchemyApiKey}`
+        : '',
+    ),
+    [sepolia.id]: http(
+      alchemyApiKey
+        ? `https://eth-sepolia.g.alchemy.com/v2/${alchemyApiKey}`
+        : '',
+    ),
   },
 })
 
@@ -27,25 +42,14 @@ const queryClient = new QueryClient()
 export default function OnchainProvider({ children }: { children: ReactNode }) {
   const router = useRouter()
 
-  const handlers = {
-    handleAuthenticatedUser: async ({ user }: { user: UserProfile }) => {
-      console.log('handleAuthenticatedUser was called', user)
-
+  const events: DynamicEventsCallbacks = {
+    onAuthSuccess: (args) => {
+      console.log('onAuthSuccess was called', args)
       router.push('/cartera')
-      // if (!user.userId) {
-      //   toast.error('something went wrong, please try again later')
-      // }
-
-      // // handle GET /api/user call > get or create user
-      // const existingUser = api.users.getById.useQuery({ id: user.userId ?? '' })
-      // console.log(existingUser.data)
-      // // const existingUser = await api.users.getById({ id: user.userId ?? '' })
-
-      // if (!existingUser) {
-      //   router.push('/u/create')
-      // } else {
-      //   router.push('/u')
-      // }
+    },
+    onLogout: (args) => {
+      console.log('onLogout was called', args)
+      router.push('/')
     },
   }
 
@@ -53,9 +57,7 @@ export default function OnchainProvider({ children }: { children: ReactNode }) {
     <DynamicContextProvider
       settings={{
         environmentId: process.env.NEXT_PUBLIC_DYNAMIC_ENV_ID ?? 'ENV_ID',
-        handlers,
-        siweStatement:
-          'Bienvenido a tu cuenta sustantiva. Firma el mensaje para comprobar que eres el dueño de la cartera. Esta operación no tiene costo y no genera ninguna transacción',
+        events,
         walletConnectors: [EthereumWalletConnectors],
       }}
     >
