@@ -5,6 +5,10 @@ import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { useState } from 'react'
 import CarteraWidget from '@/components/onchain/carteraWidget'
 import Prestamo from '@/components/Prestamo'
+import SynopsisCredito from '@/components/SynopsisCredito'
+import Talent from '@/components/Talent'
+import AboutPool from '@/components/AboutPool'
+import Ecosistema from '@/components/Ecosistema'
 
 export default function Credito() {
   const [basename, setBasename] = useState('')
@@ -28,9 +32,15 @@ export default function Credito() {
               <CarteraWidget ens={`${basename}.base.eth`} />
             ))}
         </div>
-        <div className="w-full px-8">
+        <div className="w-full px-8 grid grid-cols-1 lg:grid-cols-3 gap-4 xl:mx-8">
           <Prestamo />
+          <SynopsisCredito />
+          <Talent />
         </div>
+      </div>
+      <div className="w-full px-8">
+        <AboutPool />
+        <Ecosistema />
       </div>
     </PageWithAppbar>
   )

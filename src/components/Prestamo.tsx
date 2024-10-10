@@ -18,7 +18,7 @@ export default function Component() {
     return (
         <Card className="w-full mx-auto">
             <CardHeader className="pb-2 text-left">
-                <CardTitle className="text-xl">Credito Disponible</CardTitle>
+                <CardTitle className="text-2xl font-bold">Credito Disponible</CardTitle>
                 <CardDescription className="text-base">
 
                 </CardDescription>
