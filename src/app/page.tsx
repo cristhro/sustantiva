@@ -7,7 +7,7 @@ import WhyAsk from '@/components/landing/why-ask'
 export default function Home() {
   return (
     <PageWithAppbar>
-      <div className="page gap-y-8 text-center">
+      <div className="page text-center">
         <Hero />
         <Benefits />
         <WhyAsk />

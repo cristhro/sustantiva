@@ -2,9 +2,9 @@ import Image from 'next/image'
 
 export default function Benefits() {
   return (
-    <section className="flex w-full justify-center bg-white py-12 md:py-24 lg:py-32">
-      <div className="container md:max-w-screen-sm md:px-6 lg:max-w-screen-md xl:max-w-screen-lg">
-        <h2 className="mb-12 text-center text-3xl font-bold">
+    <section className="flex w-full justify-center bg-white py-12 md:py-24">
+      <div className="container px-8 md:max-w-screen-sm md:px-6 lg:max-w-screen-md xl:max-w-screen-lg">
+        <h2 className="mb-12 text-center text-3xl font-bold xl:text-4xl">
           Usamos tu <span className="text-primary">pasaporte Talent</span> para
           calcular tu perfil de riesgo y extenderte una línea de crédito
           instantánea.
