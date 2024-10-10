@@ -15,7 +15,6 @@ import {
 import { ArrowLeftRight, ArrowUpRightIcon, PiggyBank } from 'lucide-react'
 import { useState } from 'react'
 import CarteraWidget from '@/components/onchain/carteraWidget'
-import Prestamo from '@/components/Prestamo'
 
 export default function Cartera() {
   const [basename, setBasename] = useState('')
@@ -110,7 +109,6 @@ export default function Cartera() {
                 </div>
               </CardContent>
             </Card>
-            <Prestamo />
           </div>
         </div>
       </div>
