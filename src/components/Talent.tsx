@@ -8,7 +8,6 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { LoaderCircle } from 'lucide-react'
-import Link from 'next/link'
 
 export default function Component() {
 
