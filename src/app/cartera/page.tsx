@@ -15,10 +15,25 @@ import {
 import { ArrowLeftRight, ArrowUpRightIcon, PiggyBank } from 'lucide-react'
 import { useState } from 'react'
 import CarteraWidget from '@/components/onchain/carteraWidget'
+import Prestamo from '@/components/Prestamo'
+import { useBalanceOf } from '@/hooks/useBalanceOf'
+import { useAccount } from 'wagmi'
+import { Address } from 'viem'
+import SendModal from '@/components/ux/sendModal'
 
 export default function Cartera() {
   const [basename, setBasename] = useState('')
   const { user } = useDynamicContext()
+
+  const { address: walletAddress } = useAccount()
+  const tokenAddress = '0xa411c9Aa00E020e4f88Bc19996d29c5B7ADB4ACf' // $XOC address
+
+  const balance = useBalanceOf({
+    tokenAddress,
+    walletAddress: walletAddress as Address,
+  })
+
+  const [isSendModalOpen, setSendModalOpen] = useState(false)
 
   return (
     <PageWithAppbar>
@@ -46,7 +61,8 @@ export default function Cartera() {
               </CardHeader>
               <CardContent className="flex flex-col gap-y-4">
                 <h2 className="font-bold">
-                  $690.42 <span className="text-xl">MXN</span>
+                  {balance ? Number(balance).toFixed(2) : '0.00'}{' '}
+                  <span className="text-xl">$XOC</span>
                 </h2>
                 <div className="flex items-center justify-center gap-x-6">
                   <Button size="icon" className="h-12 w-12 rounded-full">
@@ -67,7 +83,11 @@ export default function Cartera() {
                     <ArrowLeftRight className="h-6 w-6" />
                     <span className="sr-only">Swap</span>
                   </Button>
-                  <Button size="icon" className="h-12 w-12 rounded-full">
+                  <Button
+                    size="icon"
+                    className="h-12 w-12 rounded-full"
+                    onClick={() => setSendModalOpen(true)} // Open modal
+                  >
                     <ArrowUpRightIcon className="h-6 w-6" />
                     <span className="sr-only">Send</span>
                   </Button>
@@ -109,6 +129,11 @@ export default function Cartera() {
                 </div>
               </CardContent>
             </Card>
+            <SendModal
+              isOpen={isSendModalOpen}
+              onClose={() => setSendModalOpen(false)}
+            />
+            <Prestamo />
           </div>
         </div>
       </div>
