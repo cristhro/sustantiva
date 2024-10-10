@@ -11,18 +11,20 @@ export default function WhyAsk() {
   ]
 
   return (
-    <section className="w-full bg-inherit py-12">
-      <div className="container mx-auto px-4 md:px-6">
+    <section className="w-full bg-inherit py-16">
+      <div className="container mx-auto md:max-w-screen-sm md:px-6 lg:max-w-screen-md xl:max-w-screen-lg">
         <div className="grid items-center gap-6 lg:grid-cols-2 lg:gap-12">
           <div className="space-y-4">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              Porque pedir prestado?
+            <h2 className="text-left text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+              ¿Para qué puedo usar
+              <br /> <span className="ml-6">mi</span>{' '}
+              <span className="font-semibold text-primary">CrediTalent</span>?
             </h2>
             <ul className="space-y-2">
               {reasons.map((reason, index) => (
                 <li key={index} className="flex items-center space-x-2">
                   <svg
-                    className="h-5 w-5 text-green-500"
+                    className="h-8 w-8 text-primary"
                     fill="none"
                     height="24"
                     stroke="currentColor"
@@ -35,7 +37,7 @@ export default function WhyAsk() {
                   >
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
-                  <span>{reason}</span>
+                  <span className="text-2xl font-medium">{reason}</span>
                 </li>
               ))}
             </ul>
