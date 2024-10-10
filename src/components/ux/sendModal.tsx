@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { useSendTransaction } from 'wagmi'
-import { Address, parseEther } from 'viem'
+import { useWriteContract } from 'wagmi'
+import { parseEther } from 'viem'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
@@ -14,7 +14,54 @@ const SendModal = ({
   const [amount, setAmount] = useState('')
   const [recipientAddress, setRecipientAddress] = useState('')
 
-  const { sendTransaction } = useSendTransaction()
+  const { writeContract: transferXOC, isError: errorTransfering, isSuccess: succesfulTransfer} = useWriteContract();
+
+  const handleTransfer = async () => {
+    // Ensure amount is valid
+    if (!recipientAddress || (amount && !isNaN(Number(amount)))) {
+      try {
+        // Start the transaction
+        const tx = await transferXOC({
+          address: '0xa411c9Aa00E020e4f88Bc19996d29c5B7ADB4ACf',
+          abi: [
+            // ERC20 ABI
+            {
+              "constant": false,
+              "inputs": [
+                {
+                  "name": "_to",
+                  "type": "address"
+                },
+                {
+                  "name": "_value",
+                  "type": "uint256"
+                }
+              ],
+              "name": "transfer",
+              "outputs": [
+                {
+                  "name": "",
+                  "type": "bool"
+                }
+              ],
+              "type": "function"
+            }
+          ],
+          functionName: 'transfer',
+          args: [recipientAddress, parseEther(amount)],
+        })
+
+        console.log('Transfer sent:', tx)
+      } catch (error) {
+        console.error('Transfer failed:', error)
+        alert('Transfer failed. Please try again.')
+      }
+    } else {
+      alert('Please enter a valid amount and recipient address.')
+    }
+  }
+
+ /*  const { sendTransaction } = useSendTransaction()
 
   const handleSend = async () => {
     // Ensure amount is valid
@@ -41,7 +88,7 @@ const SendModal = ({
     }
   }
   console.log('amount', amount)
-
+ */
   if (!isOpen) return null
 
   return (
@@ -79,10 +126,20 @@ const SendModal = ({
           <Button onClick={onClose} className="bg-gray-300 text-gray-700 hover:text-white">
             Cancel
           </Button>
-          <Button onClick={handleSend} className="bg-gray-300 text-gray-700 hover:text-white">
+          <Button onClick={handleTransfer} className="bg-gray-300 text-gray-700 hover:text-white">
             Send
           </Button>
         </div>
+        {errorTransfering && (
+          <div className="mt-4 text-center text-red-500">
+            Transfer failed. Please try again.
+          </div>
+        )}
+        {succesfulTransfer && (
+          <div className="mt-4 text-center text-green-500">
+            Transfer successful!
+          </div>
+        )}
       </div>
     </div>
   )

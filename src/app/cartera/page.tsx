@@ -20,6 +20,7 @@ import { useBalanceOf } from '@/hooks/useBalanceOf'
 import { useAccount } from 'wagmi'
 import { Address } from 'viem'
 import SendModal from '@/components/ux/sendModal'
+import AhorraModal from '@/components/ux/ahorraModal'
 
 export default function Cartera() {
   const [basename, setBasename] = useState('')
@@ -34,6 +35,7 @@ export default function Cartera() {
   })
 
   const [isSendModalOpen, setSendModalOpen] = useState(false)
+  const [isAhorraModalOpen, setIsAhorraModalOpen] = useState(false)
 
   return (
     <PageWithAppbar>
@@ -61,6 +63,8 @@ export default function Cartera() {
               </CardHeader>
               <CardContent className="flex flex-col gap-y-4">
                 <h2 className="font-bold">
+                  {balance ? Number(balance).toFixed(2) : '0.00'}{' '}
+                  <span className="text-xl">$XOC</span>
                   {balance ? Number(balance).toFixed(2) : '0.00'}{' '}
                   <span className="text-xl">$XOC</span>
                 </h2>
@@ -125,10 +129,19 @@ export default function Cartera() {
                   <span className="text-xl">hasta </span>6.9%
                 </h3>
                 <div className="flex items-center justify-center gap-x-6">
-                  <Button className="text-lg">Quiero ahorrar</Button>
+                  <Button
+                    className="text-lg"
+                    onClick={() => setIsAhorraModalOpen(true)} // Open the modal
+                  >
+                    Quiero ahorrar
+                  </Button>
                 </div>
               </CardContent>
             </Card>
+            <SendModal
+              isOpen={isSendModalOpen}
+              onClose={() => setSendModalOpen(false)}
+            />
             <SendModal
               isOpen={isSendModalOpen}
               onClose={() => setSendModalOpen(false)}
@@ -137,6 +150,10 @@ export default function Cartera() {
           </div>
         </div>
       </div>
+      <AhorraModal
+        isOpen={isAhorraModalOpen}
+        onClose={() => setIsAhorraModalOpen(false)} // Close the modal
+      />
     </PageWithAppbar>
   )
 }
