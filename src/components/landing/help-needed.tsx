@@ -3,10 +3,10 @@ import { Button } from '../ui/button'
 
 export default function HelpNeeded() {
   return (
-    <section className="w-full bg-white py-12">
-      <div className="container mx-auto px-4 md:px-6">
+    <section className="w-full bg-white py-16 lg:py-20 xl:py-24">
+      <div className="container mx-auto md:max-w-screen-sm md:px-6 lg:max-w-screen-md xl:max-w-screen-lg">
         <div className="grid items-center gap-6 lg:grid-cols-2 lg:gap-12">
-          <div className="relative h-[400px] lg:h-[600px]">
+          <div className="relative h-[300px] lg:h-[450px]">
             <Image
               src="/images/human-5.png"
               alt="Man in suit pointing"
@@ -15,9 +15,9 @@ export default function HelpNeeded() {
               className="rounded-lg"
             />
           </div>
-          <div className="space-y-4">
+          <div className="space-y-4 text-left">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              Estamos aquí para ayudarte
+              Estamos aquí para <span className="text-primary">ayudarte</span>
             </h2>
             <p className="text-gray-500 md:text-lg">
               We know that life is not perfect. But if all it takes is a bit of

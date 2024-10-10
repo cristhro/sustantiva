@@ -1,8 +1,8 @@
-import Benefits from '@/components/layout/benefits'
-import HelpNeeded from '@/components/layout/help-needed'
-import Hero from '@/components/layout/hero'
+import Benefits from '@/components/landing/benefits'
+import HelpNeeded from '@/components/landing/help-needed'
+import Hero from '@/components/landing/hero'
 import PageWithAppbar from '@/components/layout/pageWithAppbar'
-import WhyAsk from '@/components/layout/why-ask'
+import WhyAsk from '@/components/landing/why-ask'
 
 export default function Home() {
   return (
