@@ -11,18 +11,21 @@ export default function WhyAsk() {
   ]
 
   return (
-    <section className="w-full bg-inherit py-16">
-      <div className="container mx-auto md:max-w-screen-sm md:px-6 lg:max-w-screen-md xl:max-w-screen-lg">
+    <section className="w-full bg-inherit pb-0 pt-16 md:py-16">
+      <div className="container mx-auto px-8 md:max-w-screen-sm md:px-6 lg:max-w-screen-md xl:max-w-screen-lg">
         <div className="grid items-center gap-6 lg:grid-cols-2 lg:gap-12">
           <div className="space-y-4">
-            <h2 className="text-left text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            <h2 className="text-left text-4xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
               ¿Para qué puedo usar
               <br /> <span className="ml-6">mi</span>{' '}
               <span className="font-semibold text-primary">CrediTalent</span>?
             </h2>
             <ul className="space-y-2">
               {reasons.map((reason, index) => (
-                <li key={index} className="flex items-center space-x-2">
+                <li
+                  key={index}
+                  className="flex items-center space-x-2 text-left"
+                >
                   <svg
                     className="h-8 w-8 text-primary"
                     fill="none"
