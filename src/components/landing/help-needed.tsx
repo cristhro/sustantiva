@@ -4,7 +4,7 @@ import { Button } from '../ui/button'
 export default function HelpNeeded() {
   return (
     <section className="w-full bg-white py-16 lg:py-20 xl:py-24">
-      <div className="container mx-auto md:max-w-screen-sm md:px-6 lg:max-w-screen-md xl:max-w-screen-lg">
+      <div className="container mx-auto px-8 md:max-w-screen-sm md:px-6 lg:max-w-screen-md xl:max-w-screen-lg">
         <div className="grid items-center gap-6 lg:grid-cols-2 lg:gap-12">
           <div className="relative h-[300px] lg:h-[450px]">
             <Image
@@ -15,7 +15,7 @@ export default function HelpNeeded() {
               className="rounded-lg"
             />
           </div>
-          <div className="space-y-4 text-left">
+          <div className="order-first space-y-4 text-left lg:order-last">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
               Estamos aquí para <span className="text-primary">ayudarte</span>
             </h2>
@@ -37,9 +37,11 @@ export default function HelpNeeded() {
               Submit your information to see if you can get a loan up to
               $35,000.
             </p>
-            <Button size="lg" className="mt-4">
-              Get Started Now →
-            </Button>
+            <div className="flex w-full justify-center">
+              <Button size="lg" className="mt-4">
+                Get Started Now →
+              </Button>
+            </div>
           </div>
         </div>
       </div>

@@ -4,38 +4,29 @@ import AuthButton from '@/components/buttons/authButton'
 
 export default function Hero() {
   return (
-    <section className="w-full bg-inherit py-6 md:max-w-screen-sm md:py-24 lg:max-w-screen-md lg:py-8 xl:max-w-screen-lg xl:py-8">
+    <section className="w-full bg-inherit pb-0 pt-6 md:h-[calc(100vh-5rem)] md:max-w-screen-sm md:pt-16 lg:max-w-screen-md lg:py-8 xl:max-w-screen-lg xl:py-24 2xl:max-w-screen-xl">
       <div className="container">
         <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-4 xl:grid-cols-[1fr_600px]">
-          <div className="relative h-[80vh] w-full lg:h-auto lg:w-auto">
-            <Image
-              src="/images/happy-girl.png"
-              layout="fill" // Makes the image fill the entire container
-              objectFit="contain" // Prevents the image from being cut on any side
-              alt="Happy woman in yellow hoodie"
-              className="rounded-xl"
-            />
-          </div>
           <div className="flex flex-col justify-center space-y-4">
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold leading-none tracking-tighter sm:text-5xl xl:text-6xl/none">
+              <h1 className="text-4xl font-bold leading-none tracking-tighter sm:text-5xl">
                 Préstamos de hasta{' '}
                 <span className="text-orange-500">$2,500</span> basado en tu
                 reputación
               </h1>
-              <p className="max-w-[600px] text-gray-500 md:text-xl">
+              <p className="hidden max-w-[600px] text-gray-500 md:visible md:text-xl">
                 Conecta tu Talent Passport
               </p>
             </div>
-            <div className="flex w-full justify-center">
-              <Card className="w-full max-w-lg p-6 align-middle">
+            <div className="flex w-full justify-center px-8 md:px-0">
+              <Card className="w-full max-w-lg px-6 py-2 align-middle md:p-6">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col items-center">
-                      <div className="mt-4 flex h-24 w-24 items-center justify-center rounded-full bg-primary text-4xl text-white">
+                      <div className="mt-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-2xl text-white md:h-24 md:w-24 md:text-4xl">
                         57
                       </div>
-                      <div className="mt-2 text-center text-lg text-gray-800">
+                      <div className="mt-2 text-center text-lg leading-none text-gray-800">
                         Builder Score
                       </div>
                     </div>
@@ -43,11 +34,11 @@ export default function Hero() {
                       =
                     </div>
                     <div className="flex flex-col items-center">
-                      <div className="text-5xl font-semibold text-orange-500">
+                      <div className="text-4xl font-semibold text-orange-500 md:text-5xl">
                         2,500 $XOC
                       </div>
                       <div className="text-lg text-gray-700">
-                        Credito Disponible
+                        Crédito disponible
                       </div>
                     </div>
                   </div>
@@ -56,10 +47,10 @@ export default function Hero() {
               </Card>
             </div>
             <div className="flex w-full justify-center">
-              <div className="flex max-w-lg justify-center px-4 text-sm text-gray-500">
-                <div className="flex w-1/3 items-center justify-center gap-x-2 text-left">
+              <div className="flex max-w-lg flex-col justify-center gap-y-2 px-4 text-sm text-gray-500 md:flex-row md:gap-y-0">
+                <div className="flex w-full items-center justify-start gap-x-2 text-left md:w-1/3 md:justify-center">
                   <svg
-                    className="h-8 w-8"
+                    className="h-6 w-6 md:h-8 md:w-8"
                     fill="none"
                     height="24"
                     stroke="currentColor"
@@ -74,9 +65,9 @@ export default function Hero() {
                   </svg>
                   <span>Seguro y protegido</span>
                 </div>
-                <div className="flex w-1/3 items-center justify-center gap-x-2 text-left">
+                <div className="flex w-full items-center justify-start gap-x-2 text-left md:w-1/3 md:justify-center">
                   <svg
-                    className="h-12 w-12"
+                    className="h-6 w-6 md:h-12 md:w-12"
                     fill="none"
                     height="24"
                     stroke="currentColor"
@@ -92,9 +83,9 @@ export default function Hero() {
                   </svg>
                   <span>2-3 minutos de procesamiento</span>
                 </div>
-                <div className="flex w-1/3 items-center justify-center gap-x-2 text-left">
+                <div className="flex w-full items-center justify-start gap-x-2 text-left md:w-1/3 md:justify-center">
                   <svg
-                    className="h-10 w-10"
+                    className="h-6 w-6 md:h-10 md:w-10"
                     fill="none"
                     height="24"
                     stroke="currentColor"
@@ -111,6 +102,15 @@ export default function Hero() {
                 </div>
               </div>
             </div>
+          </div>
+          <div className="relative flex h-96 w-full items-start lg:order-first lg:h-auto lg:w-auto">
+            <Image
+              src="/images/happy-girl.png"
+              layout="fill" // Makes the image fill the entire container
+              objectFit="contain" // Prevents the image from being cut on any side
+              alt="Happy woman in yellow hoodie"
+              className="rounded-xl"
+            />
           </div>
         </div>
       </div>
