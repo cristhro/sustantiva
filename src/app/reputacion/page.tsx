@@ -6,13 +6,16 @@ import { BuilderScoreChart } from './builder-score-chart'
 import { useQuery } from '@tanstack/react-query'
 import { fetchTalentPassport } from '@/services/talentProtocolApi'
 import { useAccount } from 'wagmi'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { LoaderCircle } from 'lucide-react'
+import { ExternalLink, LoaderCircle } from 'lucide-react'
 import Link from 'next/link'
+import NoPassportCard from './noPassportCard'
+import { CREDIT_ALLOWANCE_BY_SCORE } from '@/lib/constants'
 
 export default function Credito() {
+  const [creditAllowed, setCreditAllowed] = useState(0)
   const { address: userAddress } = useAccount()
   const router = useRouter()
   const { data: talentPassportData, status: talentPassportQueryStatus } =
@@ -22,8 +25,26 @@ export default function Credito() {
       enabled: Boolean(userAddress),
     })
 
+  function getCreditAllowance(score: number) {
+    let creditAllowed = 0
+
+    for (const [key, value] of Object.entries(CREDIT_ALLOWANCE_BY_SCORE)) {
+      if (score >= parseInt(key)) {
+        creditAllowed = value
+      }
+    }
+
+    return creditAllowed
+  }
+
   useEffect(() => {
     console.log(talentPassportData)
+    if (talentPassportData) {
+      const calculatedCreditAllowed = getCreditAllowance(
+        talentPassportData.score,
+      )
+      setCreditAllowed(calculatedCreditAllowed)
+    }
   }, [talentPassportData])
   return (
     <PageWithAppbar>
@@ -38,59 +59,83 @@ export default function Credito() {
             </Card>
           </>
         )}
-        {talentPassportQueryStatus === 'success' && (
-          <>
-            <h2>Tu Reputación Onchain</h2>
-            <Card className="w-full md:w-2/3 lg:w-1/2 xl:w-2/5">
-              <CardHeader className="pb-2">
-                <CardTitle>Talent Passport</CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-col gap-x-4">
-                <div className="w-full">
-                  <BuilderScoreChart
-                    builderScore={talentPassportData?.score ?? 0}
-                  />
-                </div>
-                <div className="px-6">
-                  <ul className="text-left">
-                    <li className="text-xl font-semibold">
-                      Actividad: {talentPassportData?.activity_score}
-                    </li>
-                    <li className="text-xl font-semibold">
-                      Identidad: {talentPassportData?.identity_score}
-                    </li>
-                    <li className="text-xl font-semibold">
-                      Habilidades: {talentPassportData?.skills_score}
-                    </li>
-                    <li className="text-xl font-semibold">
-                      Humano:{' '}
-                      {talentPassportData?.human_checkmark
-                        ? 'Sí'
-                        : 'No verificado'}
-                    </li>
-                    {talentPassportData?.last_calculated_at && (
-                      <li className="text-xl font-semibold">
-                        Última actualización:{' '}
-                        {new Date(
-                          talentPassportData?.last_calculated_at,
-                        ).toLocaleDateString('es-MX', {
-                          year: 'numeric',
-                          month: 'long', // full month name
-                          day: 'numeric',
-                        })}
-                      </li>
-                    )}
-                  </ul>
-                </div>
-                <div className="p-4">
-                  <Link href="/credito">
-                    <Button size="lg">Solicitar Crédito</Button>
+        {talentPassportQueryStatus === 'success' &&
+          (talentPassportData ? (
+            <>
+              <h2>Tu CrediTalent</h2>
+
+              <div className="flex flex-col gap-y-4">
+                <p className="text-2xl">Crédito autorizado:</p>
+                <h2>$ {parseFloat(creditAllowed.toString()).toFixed(2)} MXN</h2>
+                {creditAllowed > 0 ? (
+                  <div className="flex flex-col gap-y-4 py-4">
+                    <Link
+                      href={{
+                        pathname: '/credito',
+                        query: { creditAllowed },
+                      }}
+                    >
+                      <Button size="lg">Solicitar Crédito</Button>
+                    </Link>
+                  </div>
+                ) : (
+                  <Link
+                    href="https://passport.talentprotocol.com/"
+                    target="_blank"
+                  >
+                    <Button size="lg" className="text-xl">
+                      Subir Puntaje <ExternalLink className="ml-2 h-6 w-6" />
+                    </Button>
                   </Link>
-                </div>
-              </CardContent>
-            </Card>
-          </>
-        )}
+                )}
+              </div>
+              <Card className="w-full md:w-2/3 lg:w-1/2 xl:w-2/5">
+                <CardHeader className="pb-2">
+                  <CardTitle>Talent Passport</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-col gap-x-4">
+                  <div className="w-full">
+                    <BuilderScoreChart
+                      builderScore={talentPassportData?.score ?? 0}
+                    />
+                  </div>
+                  <div className="px-6">
+                    <ul className="text-left">
+                      <li className="text-xl font-semibold">
+                        Actividad: {talentPassportData?.activity_score}
+                      </li>
+                      <li className="text-xl font-semibold">
+                        Identidad: {talentPassportData?.identity_score}
+                      </li>
+                      <li className="text-xl font-semibold">
+                        Habilidades: {talentPassportData?.skills_score}
+                      </li>
+                      <li className="text-xl font-semibold">
+                        Humano:{' '}
+                        {talentPassportData?.human_checkmark
+                          ? 'Sí'
+                          : 'No verificado'}
+                      </li>
+                      {talentPassportData?.last_calculated_at && (
+                        <li className="text-xl font-semibold">
+                          Última actualización:{' '}
+                          {new Date(
+                            talentPassportData?.last_calculated_at,
+                          ).toLocaleDateString('es-MX', {
+                            year: 'numeric',
+                            month: 'long', // full month name
+                            day: 'numeric',
+                          })}
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                </CardContent>
+              </Card>
+            </>
+          ) : (
+            <NoPassportCard />
+          ))}
         {talentPassportQueryStatus === 'error' && (
           <>
             <Card className="w-full md:w-2/3 lg:w-1/2 xl:w-2/5">

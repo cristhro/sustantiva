@@ -1,8 +1,9 @@
 'use client'
+
+import { Suspense, useState } from 'react'
 import PageWithAppbar from '@/components/layout/pageWithAppbar'
 import { Button } from '@/components/ui/button'
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
-import { useState } from 'react'
 import CarteraWidget from '@/components/onchain/carteraWidget'
 import Prestamo from '@/components/Prestamo'
 
@@ -29,7 +30,9 @@ export default function Credito() {
             ))}
         </div>
         <div className="w-full px-8">
-          <Prestamo />
+          <Suspense>
+            <Prestamo />
+          </Suspense>
         </div>
       </div>
     </PageWithAppbar>
