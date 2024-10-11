@@ -1,33 +1,33 @@
-import { useEffect, useState } from "react";
-import { Address } from "viem";
-import { useReadContract } from "wagmi";
+import { useEffect, useState } from 'react'
+import { Address } from 'viem'
+import { useReadContract } from 'wagmi'
 
 // Define the ERC-20 ABI for balanceOf and decimals functions
 const ERC20ABI = [
   {
     constant: true,
-    inputs: [{ name: "_owner", type: "address" }],
-    name: "balanceOf",
-    outputs: [{ name: "balance", type: "uint256" }],
+    inputs: [{ name: '_owner', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: 'balance', type: 'uint256' }],
     payable: false,
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function',
   },
   {
     constant: true,
     inputs: [],
-    name: "decimals",
-    outputs: [{ name: "", type: "uint8" }],
+    name: 'decimals',
+    outputs: [{ name: '', type: 'uint8' }],
     payable: false,
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function',
   },
-];
+]
 
 // Define the interface for TokenBalanceProps
 interface TokenBalanceProps {
-  tokenAddress: Address;
-  walletAddress: Address;
+  tokenAddress: Address
+  walletAddress: Address
 }
 
 /**
@@ -36,21 +36,25 @@ interface TokenBalanceProps {
  * @param walletAddress - Ethereum address of the wallet
  * @returns Token balance formatted as a string
  */
-export function useBalanceOf({ tokenAddress, walletAddress }: TokenBalanceProps) {
-  const [balance, setBalance] = useState<string>("0"); // State to store the balance
-  const [decimals, setDecimals] = useState<number>(18); // Default to 18 decimals
+export function useBalanceOf({
+  tokenAddress,
+  walletAddress,
+}: TokenBalanceProps) {
+  const [balance, setBalance] = useState<string>('0') // State to store the balance
+  const [decimals, setDecimals] = useState<number>(18) // Default to 18 decimals
 
   // Hook to read the balance from the contract
   const {
     data: balanceData,
     isError: balanceError,
     isLoading: balanceLoading,
+    status: balanceStatus,
   } = useReadContract({
     address: tokenAddress,
     abi: ERC20ABI,
-    functionName: "balanceOf",
+    functionName: 'balanceOf',
     args: [walletAddress],
-  });
+  })
 
   // Hook to read the decimals from the contract
   const {
@@ -60,23 +64,31 @@ export function useBalanceOf({ tokenAddress, walletAddress }: TokenBalanceProps)
   } = useReadContract({
     address: tokenAddress,
     abi: ERC20ABI,
-    functionName: "decimals",
-  });
+    functionName: 'decimals',
+  })
 
   // Effect to handle updates to data, error, and loading state
   useEffect(() => {
     if (decimalsData) {
-      setDecimals(Number(decimalsData)); // Set the decimals from the contract
+      setDecimals(Number(decimalsData)) // Set the decimals from the contract
     }
 
     if (balanceError || decimalsError) {
-      console.error("Error fetching balance or decimals");
-      setBalance("0"); // Set balance to 0 on error
+      console.error('Error fetching balance or decimals')
+      setBalance('0') // Set balance to 0 on error
     } else if (!balanceLoading && balanceData) {
-      const balanceInEther = (Number(balanceData) / 10 ** decimals).toFixed(7); // Convert balance using decimals
-      setBalance(balanceInEther === "0.0000000" ? "0" : balanceInEther); // Set formatted balance
+      const balanceInEther = (Number(balanceData) / 10 ** decimals).toFixed(7) // Convert balance using decimals
+      setBalance(balanceInEther === '0.0000000' ? '0' : balanceInEther) // Set formatted balance
     }
-  }, [balanceData, balanceError, balanceLoading, decimalsData, decimalsError, decimalsLoading, decimals]);
+  }, [
+    balanceData,
+    balanceError,
+    balanceLoading,
+    decimalsData,
+    decimalsError,
+    decimalsLoading,
+    decimals,
+  ])
 
-  return balance;
+  return { balance, balanceStatus }
 }
