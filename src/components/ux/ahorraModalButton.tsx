@@ -202,9 +202,9 @@ export default function AhorraModalButton() {
   }, [isDepositError, depositHash, error])
 
   useEffect(() => {
-    const assetAmount = parseFloat(amount) || 0
+    const assetAmount = parseFloat(amount ?? '0') || 0
 
-    if (assetAmount <= 0 || isNaN(assetAmount)) {
+    if (assetAmount < 0 || isNaN(assetAmount)) {
       setBalanceError(null) // Clear balance-related errors if amount is invalid
       console.error('Amount must be a positive number.')
     } else if (assetBalance && assetAmount > parseFloat(assetBalance)) {
