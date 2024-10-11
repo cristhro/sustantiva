@@ -7,7 +7,8 @@ import { useAccount } from 'wagmi'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { LoaderCircle } from 'lucide-react'
+import { ExternalLink, LoaderCircle } from 'lucide-react'
+import Link from 'next/link'
 
 export default function Component() {
   const { address: userAddress } = useAccount()
@@ -27,7 +28,7 @@ export default function Component() {
     <div className="mx-auto w-full gap-y-2 text-center">
       {talentPassportQueryStatus === 'pending' && (
         <>
-          <Card className="w-full md:w-2/3 lg:w-1/2 xl:w-2/5">
+          <Card className="w-full">
             <CardContent className="flex flex-col items-center gap-y-4 pt-6">
               <LoaderCircle className="h-16 w-16 animate-spin text-primary" />
               <h4>Calculando tu Reputación Onchain...</h4>
@@ -60,6 +61,11 @@ export default function Component() {
                   builderScore={talentPassportData?.score ?? 0}
                 />
               </div>
+              <Link href="https://passport.talentprotocol.com/" target="_blank">
+                <Button variant="outline" size="sm" className="text-sm">
+                  Subir Puntaje <ExternalLink className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
             </CardContent>
           </Card>
         </>

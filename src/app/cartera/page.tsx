@@ -38,18 +38,23 @@ export default function Cartera() {
       <div className="page gap-y-8 text-center md:max-w-screen-sm">
         <div className="flex w-full flex-col gap-y-4 px-8">
           <h2>Hola {user?.username}</h2>
-          {user &&
-            user.username &&
-            (!basename ? (
-              <div className="flex w-full justify-center">
-                <Button onClick={() => setBasename(user?.username ?? '')}>
+          <div className="flex w-full justify-center">
+            {user &&
+              user.username &&
+              (!basename ? (
+                <Button
+                  className="w-full md:w-2/3 lg:w-1/2"
+                  onClick={() => setBasename(user?.username ?? '')}
+                >
                   {' '}
                   Obtén tu Basename
                 </Button>
-              </div>
-            ) : (
-              <CarteraWidget ens={`${basename}.base.eth`} />
-            ))}
+              ) : (
+                <div className="w-full md:w-2/3 lg:w-1/2">
+                  <CarteraWidget ens={`${basename}.base.eth`} />
+                </div>
+              ))}
+          </div>
         </div>
         <div className="w-full px-8">
           <div className="grid w-full grid-cols-1 gap-y-4 lg:grid-cols-2 lg:gap-x-4">
