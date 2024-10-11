@@ -14,6 +14,7 @@ import {
 import { Label } from '../ui/label'
 import Link from 'next/link'
 import { ArrowUpRightIcon, ExternalLinkIcon, LoaderCircle } from 'lucide-react'
+import { toast } from 'sonner'
 
 const SendModal = () => {
   const [amount, setAmount] = useState('')
@@ -36,7 +37,7 @@ const SendModal = () => {
     if (!recipientAddress || (amount && !isNaN(Number(amount)))) {
       try {
         // Start the transaction
-        const tx = await transferXOC({
+        await transferXOC({
           address: '0xa411c9Aa00E020e4f88Bc19996d29c5B7ADB4ACf',
           abi: [
             // ERC20 ABI
@@ -66,45 +67,17 @@ const SendModal = () => {
           args: [recipientAddress, parseEther(amount)],
         })
 
-        console.log('Transfer sent:', tx)
+        toast.info('Transferencia solicitada...')
       } catch (error) {
         console.error('Transfer failed:', error)
-        alert('Transfer failed. Please try again.')
+        toast.error(
+          'Hubo un error en la transferencia, por favor intenta de nuevo',
+        )
       }
     } else {
-      alert('Please enter a valid amount and recipient address.')
+      toast.warning('Ambos campos son requeridos')
     }
   }
-
-  /*  const { sendTransaction } = useSendTransaction()
-
-  const handleSend = async () => {
-    // Ensure amount is valid
-    if (!recipientAddress || (amount && !isNaN(Number(amount)))) {
-      try {
-        // Start the transaction
-        const tx = await sendTransaction({
-          to: recipientAddress as Address,
-          value: parseEther(amount), // Convert the amount to ETH (wei)
-        })
-
-        // Optional: Wait for the transaction to be mined
-        // await tx.wait()
-
-        console.log('Transaction sent:', tx)
-        // Only close the modal if the transaction succeeds
-        // onClose() // Uncomment this if you want to close the modal after the transaction is successful
-      } catch (error) {
-        console.error('Transaction failed:', error)
-        alert('Transaction failed. Please try again.')
-      }
-    } else {
-      alert('Please enter a valid amount and recipient address.')
-    }
-  }
-  console.log('amount', amount)
- */
-  // if (!isOpen) return null
 
   return (
     <Dialog>
