@@ -16,7 +16,7 @@ import Link from 'next/link'
 import { ArrowUpRightIcon, ExternalLinkIcon, LoaderCircle } from 'lucide-react'
 import { toast } from 'sonner'
 
-const SendModal = () => {
+export default function SendModalButton() {
   const [amount, setAmount] = useState('')
   const [recipientAddress, setRecipientAddress] = useState('')
 
@@ -84,10 +84,10 @@ const SendModal = () => {
       <DialogTrigger asChild className="w-full">
         <Button size="icon" className="h-12 w-12 rounded-full">
           <ArrowUpRightIcon className="h-6 w-6" />
-          <span className="sr-only">Send</span>
+          <span className="sr-only">Enviar</span>
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="md:px-8 lg:px-16">
         <DialogHeader>
           <DialogTitle className="text-center text-3xl">Enviar MXN</DialogTitle>
           <DialogDescription className="text-left text-lg">
@@ -115,7 +115,7 @@ const SendModal = () => {
               <Label className="text-lg" htmlFor="value">
                 Cantidad
               </Label>
-              <div className="relative w-full max-w-sm">
+              <div className="relative w-full">
                 <Input
                   name="value"
                   placeholder="Cuánto quieres enviar..."
@@ -152,7 +152,7 @@ const SendModal = () => {
           {hash && (
             <div className="flex flex-col items-center pt-4">
               <Link
-                className="flex items-center gap-x-1.5 text-lg hover:text-accent"
+                className="flex items-center gap-x-1.5 text-lg hover:text-primary"
                 href={`https://basescan.org/tx/${hash}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -167,65 +167,4 @@ const SendModal = () => {
       </DialogContent>
     </Dialog>
   )
-
-  // return (
-  //   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-  //     <div className="w-full max-w-md rounded-lg bg-white p-8">
-  //       <h2 className="mb-6 text-2xl font-bold">Manda $XOC A Cualquiera</h2>
-  //       <div className="mb-6">
-  //         <label className="mb-2 block text-sm font-medium">
-  //           Dirección del destinatario
-  //         </label>
-  //         <Input
-  //           value={recipientAddress}
-  //           onChange={(e) => setRecipientAddress(e.target.value)}
-  //           placeholder="0xDireccionDelWallet..."
-  //           className="mb-4 block w-full"
-  //         />
-  //         <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-  //           Cantidad a mandar (XOC)
-  //         </label>
-  //         <Input
-  //           id="amount"
-  //           type="text"
-  //           value={amount}
-  //           onChange={(e) => {
-  //             const value = e.target.value
-  //             if (/^\d*\.?\d*$/.test(value)) {
-  //               setAmount(value)
-  //             }
-  //           }}
-  //           placeholder="Introduzca la cantidad (XOC)"
-  //           className="mb-4 block w-full"
-  //         />
-  //       </div>
-  //       <div className="flex justify-center space-x-4">
-  //         <Button
-  //           onClick={onClose}
-  //           className="bg-gray-300 text-gray-700 hover:text-white"
-  //         >
-  //           Cancel
-  //         </Button>
-  //         <Button
-  //           onClick={handleTransfer}
-  //           className="bg-gray-300 text-gray-700 hover:text-white"
-  //         >
-  //           Send
-  //         </Button>
-  //       </div>
-  //       {errorTransfering && (
-  //         <div className="mt-4 text-center text-red-500">
-  //           Transfer failed. Please try again.
-  //         </div>
-  //       )}
-  //       {succesfulTransfer && (
-  //         <div className="mt-4 text-center text-green-500">
-  //           Transfer successful!
-  //         </div>
-  //       )}
-  //     </div>
-  //   </div>
-  // )
 }
-
-export default SendModal
