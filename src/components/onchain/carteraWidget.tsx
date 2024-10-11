@@ -20,9 +20,9 @@ export default function CarteraWidget({ ens }: { ens: string }) {
         >
           <Avatar className="mr-2 aspect-square h-12 w-12">
             <AvatarImage src="/placeholder-avatar.jpg" alt="@username" />
-            <AvatarFallback>UN</AvatarFallback>
+            <AvatarFallback>{ens[0]}</AvatarFallback>
           </Avatar>
-          <span className="flex-grow text-left text-lg font-semibold">
+          <span className="flex-grow text-center text-lg font-semibold">
             {ens}
           </span>
           <ChevronDown className="h-6 w-6" />

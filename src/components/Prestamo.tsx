@@ -28,7 +28,7 @@ export default function Prestamo() {
   return (
     <Card className="mx-auto w-full">
       <CardHeader className="pb-2 text-left">
-        <CardTitle className="text-xl">Credito Disponible</CardTitle>
+        <CardTitle className="text-xl">Tu Crédito</CardTitle>
         <CardDescription className="text-base"></CardDescription>
       </CardHeader>
       <CardContent className="pt-6">
@@ -86,7 +86,7 @@ export default function Prestamo() {
       </CardContent>
       <CardFooter>
         <div className="mx-auto flex items-center justify-center gap-x-6">
-          <Button className="text-lg">Firmar prestamo</Button>
+          <Button className="text-lg">Solicitar préstamo</Button>
         </div>
       </CardFooter>
     </Card>
