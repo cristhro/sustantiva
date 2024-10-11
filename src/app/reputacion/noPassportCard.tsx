@@ -30,7 +30,7 @@ export default function NoPassportCard() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Get Your Talent Passport
+            Obtén tu Pasaporte
             <ExternalLink className="ml-2 h-4 w-4" />
           </a>
         </Button>

@@ -46,9 +46,9 @@ export default function Component() {
           />
           <InfoCard title="Interes Variable" content="7.8%" icon="" />
           <InfoCard
-            title="Status del Credito"
+            title="Status del Crédito"
             content={<span className="text-orange-500">Pendiente</span>}
-            icon={<AlertCircle className="h-5 w-5 text-orange-500" />}
+            icon={<AlertCircle className="ml-2 h-5 w-5 text-orange-500" />}
           />
           <div className="mb-4 h-16 rounded-lg bg-secondary bg-white p-4"></div>
         </div>
