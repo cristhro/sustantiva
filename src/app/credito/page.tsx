@@ -39,7 +39,7 @@ export default function Credito() {
                 ))}
             </div>
           </div>
-          <div className="grid w-full grid-cols-1 gap-4 px-8 lg:max-w-screen-md lg:grid-cols-3 xl:mx-8 xl:max-w-screen-lg">
+          <div className="grid w-full grid-cols-1 gap-4 px-8 md:max-w-screen-sm lg:max-w-screen-md lg:grid-cols-3 lg:px-0 xl:mx-8 xl:max-w-screen-lg">
             <Suspense>
               <Prestamo />
             </Suspense>
@@ -47,10 +47,10 @@ export default function Credito() {
             <Talent />
           </div>
         </div>
-        <div className="w-full px-8 lg:max-w-screen-md lg:grid-cols-3 xl:mx-8 xl:max-w-screen-lg">
+        <div className="w-full px-8 md:max-w-screen-sm lg:max-w-screen-md lg:grid-cols-3 lg:px-0 xl:mx-8 xl:max-w-screen-lg">
           <AboutPool />
         </div>
-        <div className="w-full px-8 lg:max-w-screen-md lg:grid-cols-3 xl:mx-8 xl:max-w-screen-lg">
+        <div className="w-full px-8 md:max-w-screen-sm lg:max-w-screen-md lg:grid-cols-3 lg:px-0 xl:mx-8 xl:max-w-screen-lg">
           <Ecosistema />
         </div>
       </div>
