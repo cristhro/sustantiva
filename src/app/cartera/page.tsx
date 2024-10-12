@@ -12,43 +12,67 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { ArrowLeftRight, ArrowUpRightIcon, PiggyBank } from 'lucide-react'
+import { ArrowLeftRight, LoaderCircle, PiggyBank } from 'lucide-react'
 import { useState } from 'react'
 import CarteraWidget from '@/components/onchain/carteraWidget'
-import Prestamo from '@/components/Prestamo'
+import { useBalanceOf } from '@/hooks/useBalanceOf'
+import { useAccount } from 'wagmi'
+import { Address } from 'viem'
+import SendModalButton from '@/components/onchain/sendModalButton'
+import AhorraModalButton from '@/components/ux/ahorraModalButton'
 
 export default function Cartera() {
   const [basename, setBasename] = useState('')
   const { user } = useDynamicContext()
 
+  const { address: walletAddress } = useAccount()
+  const tokenAddress = '0xa411c9Aa00E020e4f88Bc19996d29c5B7ADB4ACf' // $XOC address
+
+  const { balance, balanceStatus } = useBalanceOf({
+    tokenAddress,
+    walletAddress: walletAddress as Address,
+  })
+
   return (
     <PageWithAppbar>
-      <div className="page gap-y-8 text-center">
+      <div className="page gap-y-8 text-center md:max-w-screen-sm">
         <div className="flex w-full flex-col gap-y-4 px-8">
           <h2>Hola {user?.username}</h2>
-          {user &&
-            user.username &&
-            (!basename ? (
-              <div className="flex w-full justify-center">
-                <Button onClick={() => setBasename(user?.username ?? '')}>
+          <div className="flex w-full justify-center">
+            {user &&
+              user.username &&
+              (!basename ? (
+                <Button
+                  className="w-full md:w-2/3 lg:w-1/2"
+                  onClick={() => setBasename(user?.username ?? '')}
+                >
                   {' '}
                   Obtén tu Basename
                 </Button>
-              </div>
-            ) : (
-              <CarteraWidget ens={`${basename}.base.eth`} />
-            ))}
+              ) : (
+                <div className="w-full md:w-2/3 lg:w-1/2">
+                  <CarteraWidget ens={`${basename}.base.eth`} />
+                </div>
+              ))}
+          </div>
         </div>
         <div className="w-full px-8">
-          <div className="grid w-full grid-cols-1 gap-y-4">
-            <Card>
+          <div className="grid w-full grid-cols-1 gap-y-4 lg:grid-cols-2 lg:gap-x-4">
+            <Card className="lg:col-span-2">
               <CardHeader className="pb-2 text-left">
                 <CardTitle className="text-xl">Balance</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col gap-y-4">
-                <h2 className="font-bold">
-                  $690.42 <span className="text-xl">MXN</span>
-                </h2>
+                {balanceStatus === 'success' ? (
+                  <h2 className="font-bold">
+                    {balance ? Number(balance).toFixed(2) : '0.00'}
+                    <span className="ml-2 text-xl">$XOC</span>{' '}
+                  </h2>
+                ) : (
+                  <div className="flex w-full justify-center">
+                    <LoaderCircle className="h-12 w-12 animate-spin text-primary" />
+                  </div>
+                )}
                 <div className="flex items-center justify-center gap-x-6">
                   <Button size="icon" className="h-12 w-12 rounded-full">
                     <svg
@@ -68,10 +92,7 @@ export default function Cartera() {
                     <ArrowLeftRight className="h-6 w-6" />
                     <span className="sr-only">Swap</span>
                   </Button>
-                  <Button size="icon" className="h-12 w-12 rounded-full">
-                    <ArrowUpRightIcon className="h-6 w-6" />
-                    <span className="sr-only">Send</span>
-                  </Button>
+                  <SendModalButton />
                 </div>
               </CardContent>
             </Card>
@@ -94,7 +115,7 @@ export default function Cartera() {
                 </div>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="flex flex-col justify-between">
               <CardHeader className="pb-2 text-left">
                 <CardTitle className="text-xl">Cuenta Sustantiva</CardTitle>
                 <CardDescription className="text-base">
@@ -106,11 +127,12 @@ export default function Cartera() {
                   <span className="text-xl">hasta </span>6.9%
                 </h3>
                 <div className="flex items-center justify-center gap-x-6">
-                  <Button className="text-lg">Quiero ahorrar</Button>
+                  <div className="w-3/4 md:w-2/5 lg:w-[90%]">
+                    <AhorraModalButton />
+                  </div>
                 </div>
               </CardContent>
             </Card>
-            <Prestamo />
           </div>
         </div>
       </div>
