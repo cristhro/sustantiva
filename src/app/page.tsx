@@ -1,14 +1,17 @@
-import AuthButton from '@/components/buttons/authButton'
+import Benefits from '@/components/landing/benefits'
+import HelpNeeded from '@/components/landing/help-needed'
+import Hero from '@/components/landing/hero'
 import PageWithAppbar from '@/components/layout/pageWithAppbar'
+import WhyAsk from '@/components/landing/why-ask'
 
 export default function Home() {
   return (
     <PageWithAppbar>
-      <div className="page gap-y-8 text-center">
-        <h1>
-          abre tu cuenta y<br /> recibe pagos en 1 minuto
-        </h1>
-        <AuthButton size="lg" />
+      <div className="page text-center">
+        <Hero />
+        <Benefits />
+        <WhyAsk />
+        <HelpNeeded />
       </div>
     </PageWithAppbar>
   )
