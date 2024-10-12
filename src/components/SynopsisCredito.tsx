@@ -39,7 +39,7 @@ export default function Component() {
             title="Balance Actual"
             content={
               <>
-                $1,000 <span className="text-sm font-normal">XOC</span>
+                $1,000 <span className="text-sm font-normal">MXN</span>
               </>
             }
             icon=""
