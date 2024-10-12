@@ -54,10 +54,6 @@ export default function Credito() {
           <Ecosistema />
         </div>
       </div>
-      <div className="w-full px-8">
-        <AboutPool />
-        <Ecosistema />
-      </div>
     </PageWithAppbar>
   )
 }
