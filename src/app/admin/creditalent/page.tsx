@@ -10,9 +10,25 @@ import {
 } from './white-list-table'
 import Link from 'next/link'
 
+type LoanApplication = {
+  profile: {
+    name: string
+    walletAddress: string
+    bio: string
+    address: string
+  }
+  pointsInfo: {
+    activityScore: number
+    identityScore: number
+    skillsScore: number
+    humanCheckmark: boolean
+  }
+  approved: boolean
+}
+
 async function getData(): Promise<CreditRequest[]> {
   // Mock data
-  const data = [
+  const data: LoanApplication[] = [
     {
       profile: {
         name: 'Usuario 1',
@@ -46,8 +62,7 @@ async function getData(): Promise<CreditRequest[]> {
     // ...
   ]
   const creditRequests = data.map(
-    (item: any) =>
-      new CreditRequest(item.profile, item.pointsInfo, item.approved),
+    (item) => new CreditRequest(item.profile, item.pointsInfo, item.approved),
   )
   return creditRequests
 }

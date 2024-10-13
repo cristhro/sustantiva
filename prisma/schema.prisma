@@ -22,7 +22,6 @@ model PassportProfile {
   profilePictureUrl       String
   verified                Boolean
   humanCheck              Boolean
-  borrowerStatus          BorrowerStatus      @default(NO_HISTORY)
   score                   Int
   activityScore           Int
   identityScore           Int
@@ -31,6 +30,7 @@ model PassportProfile {
   socialsLinked           Int
   followerCount           Int
   
+  creditLine              CreditLine?
   loans                   Loan[]
   loanApplications        LoanApplication[]
   underwriterProfile      UnderwriterProfile?
@@ -75,18 +75,36 @@ model LoanApplication {
   updatedAt               DateTime            @updatedAt
 }
 
+model CreditLine {
+  id                      Int                 @id @default(autoincrement())
+  walletId                String
+  totalLimit              Float
+  availableLimit          Float
+  creditStatus            CreditStatus        @default(NO_HISTORY)
+  isOverdue               Boolean             @default(false)
+
+  issuedLoans             Loan[]
+  payments                Payment[]
+  
+  borrowerId              Int                 @unique
+  borrower                PassportProfile     @relation(fields: [borrowerId], references: [id])
+
+  createdAt               DateTime            @default(now())
+  updatedAt               DateTime            @updatedAt
+}
+
 model Loan {
   id                      Int                 @id @default(autoincrement())
   status                  LoanStatus          @default(OK)
   amount                  Float
   pendingBalance          Float
   dueDate                 DateTime
-  isOverdue               Boolean             @default(false)
   walletId                String
 
-  applicantId             Int
-  applicant               PassportProfile     @relation(fields: [applicantId], references: [id])
-  
+  borrowerId              Int
+  borrower                PassportProfile     @relation(fields: [borrowerId], references: [id])
+  creditLineId            Int
+  creditLine              CreditLine          @relation(fields: [creditLineId], references: [id])
   loanApplicationId       Int
   loanApplication         LoanApplication     @relation(fields: [loanApplicationId], references: [id])
 
@@ -105,7 +123,9 @@ model Payment {
   timestamp               DateTime
 
   loanId                  Int
-  loan                    Loan          @relation(fields: [loanId], references: [id])
+  loan                    Loan                @relation(fields: [loanId], references: [id])
+  creditLineId            Int
+  creditLine              CreditLine          @relation(fields: [creditLineId], references: [id])
   
   createdAt               DateTime            @default(now())
   updatedAt               DateTime            @updatedAt
@@ -126,7 +146,7 @@ enum LoanStatus {
   SETTLED
 }
 
-enum BorrowerStatus {
+enum CreditStatus {
   OK
   PARTIAL
   LATE
