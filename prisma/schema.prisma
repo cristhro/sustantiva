@@ -13,40 +13,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model LoanApplication {
-  id            Int       @id @default(autoincrement())
-  applicantId   Int
-  walletId      String
-  amount        Float
-  status        LoanStatus @default(PENDING)
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  activeLoans   ActiveLoan[]  // Revisar necesidad (el limite es de acuerdo a la suma de creditos activos vs credito total)
-  applicant     PassportProfile @relation(fields: [applicantId], references: [id])
-}
-
-enum LoanStatus {
-  PENDING
-  APPROVED
-  REJECTED
-}
-
-model ActiveLoan {
-  id            Int      @id @default(autoincrement())
-  applicantId   Int
-  walletId      String
-  loanId        Int
-  amount        Float
-  dueDate       DateTime
-  isOverdue     Boolean   @default(false)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime   @updatedAt
-  loan          LoanApplication @relation(fields: [loanId], references: [id])
-  applicant     PassportProfile @relation(fields: [applicantId], references: [id])
-}
-
 model PassportProfile {
-  id                      Int         @id @default(autoincrement())
+  id                      Int                 @id @default(autoincrement())
   walletId                String
   talentPassportId        Int
   talentUserId            String
@@ -54,6 +22,7 @@ model PassportProfile {
   profilePictureUrl       String
   verified                Boolean
   humanCheck              Boolean
+  borrowerStatus          BorrowerStatus      @default(NO_HISTORY)
   score                   Int
   activityScore           Int
   identityScore           Int
@@ -61,9 +30,115 @@ model PassportProfile {
   nominationsReceived     Int
   socialsLinked           Int
   followerCount           Int
-  activeLoans             ActiveLoan[]
+  
+  loans                   Loan[]
   loanApplications        LoanApplication[]
+  underwriterProfile      UnderwriterProfile?
 
-  createdAt               DateTime    @default(now())
-  updatedAt               DateTime    @updatedAt
+  createdAt               DateTime            @default(now())
+  updatedAt               DateTime            @updatedAt
+}
+
+model UnderwriterProfile {
+  id                      Int                 @id @default(autoincrement())  
+  name                    String
+  status                  UnderwriterStatus   @default(ACTIVE)
+
+  reviewedApplications    LoanApplication[]
+
+  passportProfileId       Int                 @unique
+  PassportProfile         PassportProfile     @relation(fields: [passportProfileId], references: [id])
+
+  createdAt               DateTime            @default(now())
+  updatedAt               DateTime            @updatedAt
+}
+
+model LoanApplication {
+  id                      Int                 @id @default(autoincrement())  
+  amount                  Float
+  availableCreditLine     Float
+  xocScore                Int
+  builderScore            Int
+  nominationsReceived     Int
+  followers               Int
+  walletId                String
+  status                  LoanAppStatus       @default(PENDING)
+
+  reviewedById            Int
+  reviewedBy              UnderwriterProfile     @relation(fields: [reviewedById], references: [id])
+  applicantId             Int
+  applicant               PassportProfile     @relation(fields: [applicantId], references: [id])
+
+  loans                   Loan[]
+  
+  createdAt               DateTime            @default(now())
+  updatedAt               DateTime            @updatedAt
+}
+
+model Loan {
+  id                      Int                 @id @default(autoincrement())
+  status                  LoanStatus          @default(OK)
+  amount                  Float
+  pendingBalance          Float
+  dueDate                 DateTime
+  isOverdue               Boolean             @default(false)
+  walletId                String
+
+  applicantId             Int
+  applicant               PassportProfile     @relation(fields: [applicantId], references: [id])
+  
+  loanApplicationId       Int
+  loanApplication         LoanApplication     @relation(fields: [loanApplicationId], references: [id])
+
+  payments                Payment[]
+  
+  createdAt               DateTime            @default(now())
+  updatedAt               DateTime            @updatedAt
+}
+
+model Payment {
+  id                      Int                 @id @default(autoincrement())
+  txHash                  String
+  walletId                String
+  amountPaid              Float
+  evmTimestamp            Int
+  timestamp               DateTime
+
+  loanId                  Int
+  loan                    Loan          @relation(fields: [loanId], references: [id])
+  
+  createdAt               DateTime            @default(now())
+  updatedAt               DateTime            @updatedAt
+}
+
+enum LoanAppStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum LoanStatus {
+  OK
+  PARTIAL
+  LATE
+  OVERDUE
+  DEFAULTED
+  SETTLED
+}
+
+enum BorrowerStatus {
+  OK
+  PARTIAL
+  LATE
+  OVERDUE
+  DEFAULTED
+  SETTLED
+  NO_HISTORY
+}
+
+enum UnderwriterStatus {
+  ACTIVE
+  PAUSED
+  BANNED
+  INACTIVE
 }
