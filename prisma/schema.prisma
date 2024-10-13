@@ -15,12 +15,14 @@ datasource db {
 
 model LoanApplication {
   id            Int       @id @default(autoincrement())
+  applicantId   Int
   walletId      String
   amount        Float
   status        LoanStatus @default(PENDING)
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
-  activeLoans   ActiveLoan[]
+  activeLoans   ActiveLoan[]  // Revisar necesidad (el limite es de acuerdo a la suma de creditos activos vs credito total)
+  applicant     PassportProfile @relation(fields: [applicantId], references: [id])
 }
 
 enum LoanStatus {
@@ -31,11 +33,37 @@ enum LoanStatus {
 
 model ActiveLoan {
   id            Int      @id @default(autoincrement())
+  applicantId   Int
   walletId      String
   loanId        Int
   amount        Float
   dueDate       DateTime
   isOverdue     Boolean   @default(false)
   createdAt     DateTime  @default(now())
+  updatedAt     DateTime   @updatedAt
   loan          LoanApplication @relation(fields: [loanId], references: [id])
+  applicant     PassportProfile @relation(fields: [applicantId], references: [id])
+}
+
+model PassportProfile {
+  id                      Int         @id @default(autoincrement())
+  walletId                String
+  talentPassportId        Int
+  talentUserId            String
+  name                    String
+  profilePictureUrl       String
+  verified                Boolean
+  humanCheck              Boolean
+  score                   Int
+  activityScore           Int
+  identityScore           Int
+  skillsScore             Int
+  nominationsReceived     Int
+  socialsLinked           Int
+  followerCount           Int
+  activeLoans             ActiveLoan[]
+  loanApplications        LoanApplication[]
+
+  createdAt               DateTime    @default(now())
+  updatedAt               DateTime    @updatedAt
 }
