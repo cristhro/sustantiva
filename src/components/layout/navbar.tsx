@@ -24,8 +24,8 @@ const MENU_ITEMS: MenuItemType[] = [
 const AUTH_MENU_ITEMS: MenuItemType[] = [
   { displayText: 'Inicio', href: '/', isMobileOnly: true },
   { displayText: 'Mi Cartera', href: '/cartera', isMobileOnly: false },
-  { displayText: 'Enviar', href: '/enviar', isMobileOnly: false },
-  { displayText: 'Recibir', href: '/recibir', isMobileOnly: false },
+  { displayText: 'Ahorro', href: '/ahorro', isMobileOnly: false },
+  { displayText: 'CrediTalent', href: '/credito', isMobileOnly: false },
 ]
 
 export default function Navbar() {

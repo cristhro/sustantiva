@@ -8,10 +8,10 @@ export default function Hero() {
       <div className="container">
         <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-4 xl:grid-cols-[1fr_600px]">
           <div className="flex flex-col justify-center space-y-4">
-            <div className="space-y-2">
+            <div className="space-y-2 px-4">
               <h1 className="text-4xl font-bold leading-none tracking-tighter sm:text-5xl">
                 Préstamos de hasta{' '}
-                <span className="text-orange-500">$2,500</span> basado en tu
+                <span className="text-orange-500">$1,500</span> basado en tu
                 reputación
               </h1>
               <p className="hidden max-w-[600px] text-gray-500 md:visible md:text-xl">
@@ -19,25 +19,26 @@ export default function Hero() {
               </p>
             </div>
             <div className="flex w-full justify-center px-8 md:px-0">
-              <Card className="w-full max-w-lg px-6 py-2 align-middle md:p-6">
+              <Card className="w-full max-w-lg px-4 pb-6 pt-4 align-middle md:p-6">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col items-center">
                       <div className="mt-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-2xl text-white md:h-24 md:w-24 md:text-4xl">
-                        57
+                        77
                       </div>
-                      <div className="mt-2 text-center text-lg leading-none text-gray-800">
+                      <div className="mt-2 text-center text-lg leading-none text-foreground">
                         Builder Score
                       </div>
                     </div>
-                    <div className="mb-8 text-4xl font-bold text-gray-800">
+                    <div className="mb-8 text-4xl font-bold text-foreground">
                       =
                     </div>
                     <div className="flex flex-col items-center">
-                      <div className="text-4xl font-semibold text-orange-500 md:text-5xl">
-                        2,500 $XOC
+                      <div className="text-4xl font-semibold text-foreground md:text-5xl">
+                        $1,500
+                        <span className="text-base font-bold">MXN</span>
                       </div>
-                      <div className="text-lg text-gray-700">
+                      <div className="text-lg text-foreground">
                         Crédito disponible
                       </div>
                     </div>

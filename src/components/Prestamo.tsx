@@ -35,7 +35,7 @@ export default function Prestamo() {
         <div className="mx-auto max-w-lg">
           <div className="mb-6 rounded-lg bg-white p-3">
             <p className="text-2xl font-bold">
-              $1,500 <span className="text-sm font-normal">XOC</span>
+              $1,500 <span className="text-sm font-normal">MXN</span>
             </p>
           </div>
           <ToggleGroup
@@ -58,7 +58,7 @@ export default function Prestamo() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-2xl font-bold">
-                  ${loanAmount} <span className="text-sm font-normal">XOC</span>
+                  ${loanAmount} <span className="text-sm font-normal">MXN</span>
                 </p>
                 <p className="text-sm text-muted-foreground">
                   ${(loanAmount * 0.0518).toFixed(2)} USD

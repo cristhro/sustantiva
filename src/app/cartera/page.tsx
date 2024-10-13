@@ -65,8 +65,8 @@ export default function Cartera() {
               <CardContent className="flex flex-col gap-y-4">
                 {balanceStatus === 'success' ? (
                   <h2 className="font-bold">
-                    {balance ? Number(balance).toFixed(2) : '0.00'}
-                    <span className="ml-2 text-xl">$XOC</span>{' '}
+                    {balance ? `$ ${Number(balance).toFixed(2)}` : '$ 0.00'}
+                    <span className="ml-2 text-xl">MXN</span>
                   </h2>
                 ) : (
                   <div className="flex w-full justify-center">
