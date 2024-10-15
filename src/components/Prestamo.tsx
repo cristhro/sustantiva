@@ -13,6 +13,8 @@ import { Slider } from '@/components/ui/slider'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { Wallet } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
+import { useWriteContract } from 'wagmi'
+import CreditTalentCenterABI from '@/components/onchain/abis/CreditTalentCenter'
 
 export default function Prestamo() {
   const searchParams = useSearchParams()
@@ -21,9 +23,29 @@ export default function Prestamo() {
   const [toggleValue, setToggleValue] = useState('prestamo')
   const maxLoan = parseInt(creditAllowed ?? '0') // 95% of 2450 / 0.95
 
+  const { writeContract, data, isSuccess } = useWriteContract()
+
   const handleSliderChange = (value: number[]) => {
     setLoanAmount(Math.round(value[0]))
   }
+
+  /*   const handleApplication = () => {
+    console.log("Antes de write contract")
+    try {
+      writeContract({
+        address: '0x0E44B48406b5E7Bba4E6d089542719Cb2577d444',
+        abi: CreditTalentCenterABI,
+        functionName: 'applyToCredit',
+        args: ["0x01"],
+      })
+      if (isSuccess) {
+        console.log('Application successful:', data)
+      }
+    } catch (error) {
+      console.error('Application failed:', error)
+    }
+    console.log("despues de write contract")
+  } */
 
   return (
     <Card className="mx-auto w-full">
@@ -86,7 +108,19 @@ export default function Prestamo() {
       </CardContent>
       <CardFooter>
         <div className="mx-auto flex items-center justify-center gap-x-6">
-          <Button className="text-lg">Solicitar préstamo</Button>
+          <Button
+            onClick={() => {
+                writeContract({
+                  address: '0x0E44B48406b5E7Bba4E6d089542719Cb2577d444',
+                  abi: CreditTalentCenterABI,
+                  functionName: 'applyToCredit',
+                  args: ['0x01'],
+                })
+            }}
+            className="text-lg"
+          >
+            Solicitar préstamo
+          </Button>
         </div>
       </CardFooter>
     </Card>
