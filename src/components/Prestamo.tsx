@@ -114,7 +114,7 @@ export default function Prestamo() {
                   address: '0x0E44B48406b5E7Bba4E6d089542719Cb2577d444',
                   abi: CreditTalentCenterABI,
                   functionName: 'applyToCredit',
-                  args: ['0x01'],
+                  args: ['0x0000000000000000000000000000000000000000000000000000000000000001'],
                 })
             }}
             className="text-lg"
