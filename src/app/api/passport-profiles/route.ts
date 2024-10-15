@@ -1,51 +1,50 @@
 import { NextResponse } from 'next/server'
-import {
-  createPassportProfile,
-  getPassportProfileById,
-  getAllPassportProfiles,
-  updatePassportProfileById,
-  deletePassportProfileById,
-} from '@/services/passportProfile'
+import prisma from '@/utils/prisma'
 
 // Create or Get All PassportProfiles
 export async function POST(request: Request) {
+  const body = await request.json()
+  const { wallet } = body
+
+  if (!wallet) {
+    return NextResponse.json({ error: 'Wallet address is required' }, { status: 400 })
+  }
+
   try {
-    const body = await request.json()
-    const newProfile = await createPassportProfile(body)
-    return NextResponse.json(newProfile, { status: 201 })
+    const passportProfile = await prisma.passportProfile.create({
+      data: { wallet },
+    })
+
+    return NextResponse.json({ passportId: passportProfile.id })
   } catch (error) {
-    if (error instanceof Error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
-    } else {
-      return NextResponse.json(
-        { error: 'An unknown error occurred' },
-        { status: 500 },
-      )
-    }
+    console.error('Error creating passport profile:', error)
+    return NextResponse.json({ error: 'Failed to create passport profile' }, { status: 500 })
   }
 }
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
-  const id = searchParams.get('id')
+  const wallet = searchParams.get('wallet')
+
+  if (!wallet) {
+    return NextResponse.json({ error: 'Wallet address is required' }, { status: 400 })
+  }
 
   try {
-    if (id) {
-      const profile = await getPassportProfileById(Number(id))
-      return NextResponse.json(profile, { status: 200 })
-    } else {
-      const profiles = await getAllPassportProfiles()
-      return NextResponse.json(profiles, { status: 200 })
+    let passportProfile = await prisma.passportProfile.findUnique({
+      where: { wallet },
+    })
+
+    if (!passportProfile) {
+      passportProfile = await prisma.passportProfile.create({
+        data: { wallet },
+      })
     }
+
+    return NextResponse.json({ passportId: passportProfile.id })
   } catch (error) {
-    if (error instanceof Error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
-    } else {
-      return NextResponse.json(
-        { error: 'An unknown error occurred' },
-        { status: 500 },
-      )
-    }
+    console.error('Error in passport profile operation:', error)
+    return NextResponse.json({ error: 'Failed to process passport profile' }, { status: 500 })
   }
 }
 

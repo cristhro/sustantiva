@@ -7,6 +7,8 @@ import { Toaster } from '@/components/ui/sonner'
 import { Inter } from 'next/font/google'
 // import localFont from 'next/font/local'
 
+import { ToastProvider } from "@/components/ui/toast"
+
 import '@/styles/globals.css'
 
 // const geistSans = localFont({
@@ -42,8 +44,10 @@ export default function RootLayout({
         )}
       >
         <OnchainProvider>
-          {children}
-          <Toaster richColors />
+          <ToastProvider>
+            {children}
+            <Toaster richColors />
+          </ToastProvider>
         </OnchainProvider>
       </body>
     </html>
