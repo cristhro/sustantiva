@@ -15,6 +15,7 @@ import { Wallet } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { useWriteContract } from 'wagmi'
 import CreditTalentCenterABI from '@/components/onchain/abis/CreditTalentCenter'
+import { ethers } from 'ethers';
 
 export default function Prestamo() {
   const searchParams = useSearchParams()
@@ -29,14 +30,18 @@ export default function Prestamo() {
     setLoanAmount(Math.round(value[0]))
   }
 
-  /*   const handleApplication = () => {
+  const convertToBytes32 = (num: number): string => {
+    return ethers.zeroPadValue(ethers.toBeHex(num), 32);
+  };
+
+  const handleApplication = () => {
     console.log("Antes de write contract")
     try {
       writeContract({
         address: '0x0E44B48406b5E7Bba4E6d089542719Cb2577d444',
         abi: CreditTalentCenterABI,
         functionName: 'applyToCredit',
-        args: ["0x01"],
+        args: [`${convertToBytes32(1)}`],
       })
       if (isSuccess) {
         console.log('Application successful:', data)
@@ -45,7 +50,7 @@ export default function Prestamo() {
       console.error('Application failed:', error)
     }
     console.log("despues de write contract")
-  } */
+  }
 
   return (
     <Card className="mx-auto w-full">
@@ -109,14 +114,7 @@ export default function Prestamo() {
       <CardFooter>
         <div className="mx-auto flex items-center justify-center gap-x-6">
           <Button
-            onClick={() => {
-                writeContract({
-                  address: '0x0E44B48406b5E7Bba4E6d089542719Cb2577d444',
-                  abi: CreditTalentCenterABI,
-                  functionName: 'applyToCredit',
-                  args: ['0x0000000000000000000000000000000000000000000000000000000000000001'],
-                })
-            }}
+            onClick={handleApplication}
             className="text-lg"
           >
             Solicitar préstamo
