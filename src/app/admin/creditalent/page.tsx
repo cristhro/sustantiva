@@ -2,33 +2,14 @@
 import PageWithAppbar from '@/components/layout/pageWithAppbar'
 import { Button } from '@/components/ui/button'
 import { useState, useEffect } from 'react'
-import {
-  WhitelistTable,
-  CreditRequest,
-  // Profile,
-  // PointsInfo,
-} from './white-list-table'
+import { WhitelistTable, CreditRequest } from './white-list-table'
+import UnderWriterDepositWidget from './underWriterDepositWidget' // Assuming it's in the same folder
 import Link from 'next/link'
 
-type LoanApplication = {
-  profile: {
-    name: string
-    walletAddress: string
-    bio: string
-    address: string
-  }
-  pointsInfo: {
-    activityScore: number
-    identityScore: number
-    skillsScore: number
-    humanCheckmark: boolean
-  }
-  approved: boolean
-}
 
 async function getData(): Promise<CreditRequest[]> {
-  // Mock data
-  const data: LoanApplication[] = [
+  // Mock data (same as before)
+  const data = [
     {
       profile: {
         name: 'Usuario 1',
@@ -59,7 +40,6 @@ async function getData(): Promise<CreditRequest[]> {
       },
       approved: true,
     },
-    // ...
   ]
   const creditRequests = data.map(
     (item) => new CreditRequest(item.profile, item.pointsInfo, item.approved),
@@ -120,16 +100,27 @@ export default function SolicitudesCredito() {
   return (
     <PageWithAppbar>
       <div className="page gap-y-8 px-8 text-center">
-        <h2>Lista de Whitelist</h2>
-        {isLoading ? (
-          <div className="text-center">Cargando...</div>
-        ) : (
-          <WhitelistTable
-            data={whitelist}
-            onApprove={handleApprove}
-            onDeny={handleDeny}
-          />
-        )}
+        <h2>Consola del Prestamista</h2>
+        <div className="flex flex-col lg:flex-row justify-between gap-8">
+          {/* Left Column: UnderWriterDepositWidget */}
+          <div className="w-full lg:w-1/2">
+            <UnderWriterDepositWidget />
+          </div>
+
+          {/* Right Column: Whitelist Table */}
+          <div className="w-full lg:w-1/2">
+            {isLoading ? (
+              <div className="text-center">Cargando...</div>
+            ) : (
+              <WhitelistTable
+                data={whitelist}
+                onApprove={handleApprove}
+                onDeny={handleDeny}
+              />
+            )}
+          </div>
+        </div>
+
         <Link href="/">
           <Button className={`mt-6 h-12 text-lg md:mt-8 lg:mt-8 xl:mt-12`}>
             Atrás
