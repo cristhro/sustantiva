@@ -15,7 +15,8 @@ import { Wallet } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { useWriteContract } from 'wagmi'
 import CreditTalentCenterABI from '@/components/onchain/abis/CreditTalentCenter'
-import { ethers } from 'ethers';
+import { toHex, pad } from 'viem';
+
 
 export default function Prestamo() {
   const searchParams = useSearchParams()
@@ -31,7 +32,7 @@ export default function Prestamo() {
   }
 
   const convertToBytes32 = (num: number): string => {
-    return ethers.zeroPadValue(ethers.toBeHex(num), 32);
+    return pad(toHex(num), { size: 32 });
   };
 
   const handleApplication = () => {
