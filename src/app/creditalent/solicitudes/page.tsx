@@ -13,6 +13,7 @@ import Link from 'next/link'
 import PageWithAppbar from '@/components/layout/pageWithAppbar'
 import { Button } from '@/components/ui/button'
 import { LoanApplication, PassportProfile } from '@prisma/client'
+import { DenyModalButton } from '@/components/onchain/denyModalButton'
 
 interface LoanAppExtended extends LoanApplication {
   creditLine: { totalLimit: number }
@@ -22,8 +23,8 @@ interface LoanAppExtended extends LoanApplication {
 const mockLoanApplications: LoanAppExtended[] = [
   {
     id: 1,
-    applicantId: 123,
-    walletId: '0x123456789abcdef...',
+    applicantId: 3,
+    walletId: '0xDb4Ba832c8D47A9bd4eC1d3ce8c07dB471cD5CE2',
     amount: 1500.5,
     status: 'PENDING',
     xocScore: 0,
@@ -39,8 +40,8 @@ const mockLoanApplications: LoanAppExtended[] = [
     },
     reviewedById: null,
     applicant: {
-      id: 123,
-      walletId: '0x123456789abcdef...',
+      id: 3,
+      walletId: '0xDb4Ba832c8D47A9bd4eC1d3ce8c07dB471cD5CE2',
       talentPassportId: 456,
       talentUserId: 'user123',
       name: 'Alice',
@@ -77,8 +78,8 @@ const mockLoanApplications: LoanAppExtended[] = [
     },
     reviewedById: null,
     applicant: {
-      id: 456,
-      walletId: '0xabcdef0123456789...',
+      id: 3,
+      walletId: '0xDb4Ba832c8D47A9bd4eC1d3ce8c07dB471cD5CE2',
       talentPassportId: 789,
       talentUserId: 'user456',
       name: 'Bob',
@@ -212,13 +213,7 @@ export default function WhiteList() {
                       >
                         Aprobar
                       </Button>
-                      <Button
-                        variant="outline"
-                        className="border-primary hover:bg-primary/60"
-                        onClick={() => handleDeny(item)}
-                      >
-                        Denegar
-                      </Button>
+                      <DenyModalButton loanApplication={item} /> {/* Use the component here */}
                     </div>
                   </TableCell>
                 </TableRow>
