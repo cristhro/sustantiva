@@ -14,6 +14,7 @@ import PageWithAppbar from '@/components/layout/pageWithAppbar'
 import { Button } from '@/components/ui/button'
 import { LoanApplication, PassportProfile } from '@prisma/client'
 import { DenyModalButton } from '@/components/onchain/denyModalButton'
+import { ApproveModalButton } from '@/components/onchain/approveModalButton'
 
 interface LoanAppExtended extends LoanApplication {
   creditLine: { totalLimit: number }
@@ -22,9 +23,9 @@ interface LoanAppExtended extends LoanApplication {
 
 const mockLoanApplications: LoanAppExtended[] = [
   {
-    id: 1,
-    applicantId: 3,
-    walletId: '0xDb4Ba832c8D47A9bd4eC1d3ce8c07dB471cD5CE2',
+    id: 4,
+    applicantId: 4,
+    walletId: '0x46b05e5Cc3091553297BfDC143FD035bC04c5de4',
     amount: 1500.5,
     status: 'PENDING',
     xocScore: 0,
@@ -40,8 +41,8 @@ const mockLoanApplications: LoanAppExtended[] = [
     },
     reviewedById: null,
     applicant: {
-      id: 3,
-      walletId: '0xDb4Ba832c8D47A9bd4eC1d3ce8c07dB471cD5CE2',
+      id: 4,
+      walletId: '0x46b05e5Cc3091553297BfDC143FD035bC04c5de4',
       talentPassportId: 456,
       talentUserId: 'user123',
       name: 'Alice',
@@ -58,45 +59,7 @@ const mockLoanApplications: LoanAppExtended[] = [
       createdAt: new Date('2024-04-10T10:00:00Z'),
       updatedAt: new Date('2024-04-12T11:00:00Z'),
     },
-  },
-  {
-    id: 2,
-    applicantId: 456,
-    walletId: '0xabcdef0123456789...',
-    amount: 1000.0,
-    status: 'APPROVED',
-    xocScore: 0,
-    builderScore: 88,
-    followers: 3069,
-    availableCreditLine: 1500,
-    creditLineId: 1,
-    nominationsReceived: 51,
-    createdAt: new Date('2024-04-13T14:00:00Z'),
-    updatedAt: new Date('2024-04-13T15:00:00Z'),
-    creditLine: {
-      totalLimit: 1500.5,
-    },
-    reviewedById: null,
-    applicant: {
-      id: 3,
-      walletId: '0xDb4Ba832c8D47A9bd4eC1d3ce8c07dB471cD5CE2',
-      talentPassportId: 789,
-      talentUserId: 'user456',
-      name: 'Bob',
-      profilePictureUrl: 'https://example.com/avatar2.png',
-      verified: false,
-      humanCheck: true,
-      score: 70,
-      activityScore: 75,
-      identityScore: 60,
-      skillsScore: 75,
-      nominationsReceived: 10,
-      socialsLinked: 2,
-      followerCount: 200,
-      createdAt: new Date('2024-04-09T18:00:00Z'),
-      updatedAt: new Date('2024-04-11T19:00:00Z'),
-    },
-  },
+  }
 ]
 
 const handleApprove = async (loanAplication: LoanAppExtended) => {
@@ -206,14 +169,8 @@ export default function WhiteList() {
                   </TableCell>
                   <TableCell>
                     <div className="flex justify-center gap-2">
-                      <Button
-                        variant="outline"
-                        className="border-secondary hover:bg-secondary/60"
-                        onClick={() => handleApprove(item)}
-                      >
-                        Aprobar
-                      </Button>
-                      <DenyModalButton loanApplication={item} /> {/* Use the component here */}
+                      <ApproveModalButton loanApplication={item} />
+                      <DenyModalButton loanApplication={item} />
                     </div>
                   </TableCell>
                 </TableRow>

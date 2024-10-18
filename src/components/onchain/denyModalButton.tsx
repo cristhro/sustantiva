@@ -15,6 +15,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
 import { LoanApplication, PassportProfile } from '@prisma/client'
+import { CreditTalentCenterABI } from '@/components/onchain/abis/CreditTalentCenter'
 
 
 export function DenyModalButton({ loanApplication }: { loanApplication: LoanApplication }) {
@@ -36,35 +37,10 @@ export function DenyModalButton({ loanApplication }: { loanApplication: LoanAppl
       // Start the transaction
       await denyApplication({
         address: '0x0E44B48406b5E7Bba4E6d089542719Cb2577d444', // Your contract address from the image
-        abi: [
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "user_",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "applicationId_",
-                "type": "uint256"
-              },
-              {
-                "internalType": "string",
-                "name": "reason_",
-                "type": "string"
-              }
-            ],
-            "name": "rejectCredit", // Function name from the image
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-          }
-        ],
+        abi: CreditTalentCenterABI,
         functionName: 'rejectCredit', // Function name
         args: [loanApplication.applicant.walletId, loanApplication.applicant.id, reason],
       })
-
       toast.info('Solicitud de denegación enviada...')
       setIsOpen(false)
     } catch (error) {
